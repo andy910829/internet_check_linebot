@@ -18,9 +18,9 @@ error_area = []
 app = Flask(__name__)
 
 #Channel Access Token
-line_bot_api = LineBotApi('')
+line_bot_api = LineBotApi('QIsD3hg2VgTge6iTh/bSfUjUOgMdPlBCPXlTtG/5bOfeq2PqAVufvH192wO/XgxlrmRV7Vnrk630vS9EbYq+XnyHoCzNFD+VH67TgIT77eCTylU28zpbo/f++TVrL5QNP5jBo4225ZREsD2eeZFxXgdB04t89/1O/w1cDnyilFU=')
 # Channel Secret
-handler = WebhookHandler('')
+handler = WebhookHandler('7725e2081253d481db9edd9273be30f0')
 
 checker = internet_check()
 
@@ -58,10 +58,12 @@ def handle_message(event):
 
 
 if __name__ == "__main__":
-    t1 = threading.Thread(target = checker.store)   #開始更新checker裡面ans
+    t1 = threading.Thread(target = checker.store)
+    t1.daemon = True   #開始更新checker裡面ans
     t1.start()
     run_with_ngrok(app)                             #run_with_ngrok 產生webhook
-    app.run()                                       #無限迴圈
+    app.run()   
+                                      #無限迴圈
 
 
 # @app.route("/", methods=['POST'])
