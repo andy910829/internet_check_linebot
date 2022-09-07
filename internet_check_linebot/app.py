@@ -18,9 +18,9 @@ error_area = []
 app = Flask(__name__)
 
 #Channel Access Token
-line_bot_api = LineBotApi('QIsD3hg2VgTge6iTh/bSfUjUOgMdPlBCPXlTtG/5bOfeq2PqAVufvH192wO/XgxlrmRV7Vnrk630vS9EbYq+XnyHoCzNFD+VH67TgIT77eCTylU28zpbo/f++TVrL5QNP5jBo4225ZREsD2eeZFxXgdB04t89/1O/w1cDnyilFU=')
+line_bot_api = LineBotApi('')
 # Channel Secret
-handler = WebhookHandler('7725e2081253d481db9edd9273be30f0')
+handler = WebhookHandler('')
 
 checker = internet_check()
 
@@ -71,8 +71,8 @@ if __name__ == "__main__":
 #     body = request.get_data(as_text=True)                    # 取得收到的訊息內容
 #     try:
 #         json_data = json.loads(body)                         # json 格式化訊息內容
-#         access_token =  'QIsD3hg2VgTge6iTh/bSfUjUOgMdPlBCPXlTtG/5bOfeq2PqAVufvH192wO/XgxlrmRV7Vnrk630vS9EbYq+XnyHoCzNFD+VH67TgIT77eCTylU28zpbo/f++TVrL5QNP5jBo4225ZREsD2eeZFxXgdB04t89/1O/w1cDnyilFU='
-#         secret = '7725e2081253d481db9edd9273be30f0'
+#         access_token =  ''
+#         secret = ''
 #         line_bot_api = LineBotApi(access_token)              # 確認 token 是否正確
 #         handler = WebhookHandler(secret)                     # 確認 secret 是否正確
 #         signature = request.headers['X-Line-Signature']      # 加入回傳的 headers
@@ -86,8 +86,8 @@ if __name__ == "__main__":
 #     return 'OK'    
 # def linebot(request):
 #     try:
-#         access_token = 'QIsD3hg2VgTge6iTh/bSfUjUOgMdPlBCPXlTtG/5bOfeq2PqAVufvH192wO/XgxlrmRV7Vnrk630vS9EbYq+XnyHoCzNFD+VH67TgIT77eCTylU28zpbo/f++TVrL5QNP5jBo4225ZREsD2eeZFxXgdB04t89/1O/w1cDnyilFU='
-#         secret = '7725e2081253d481db9edd9273be30f0'
+#         access_token = ''
+#         secret = ''
 #         body = request.get_data(as_text=True)
 #         json_data = json.loads(body)
 #         line_bot_api = LineBotApi(access_token)
@@ -106,7 +106,7 @@ if __name__ == "__main__":
 # def push_warning():
 #     global error_area
 #     ans = ''
-#     user_id =  'U33dcbe139d669eb71298956ab6e24a08'
+#     user_id =  ''
 #     line_bot_api.push_message(user_id, 
 #             TextSendMessage(text="123"))
 #     for i in range(197):
