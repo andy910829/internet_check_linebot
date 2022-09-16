@@ -13,14 +13,16 @@ from internet_check import internet_check
 import json
 import threading
 
+
+
 error_area = []
 
 app = Flask(__name__)
 
 #Channel Access Token
-line_bot_api = LineBotApi('')
+line_bot_api = LineBotApi('QIsD3hg2VgTge6iTh/bSfUjUOgMdPlBCPXlTtG/5bOfeq2PqAVufvH192wO/XgxlrmRV7Vnrk630vS9EbYq+XnyHoCzNFD+VH67TgIT77eCTylU28zpbo/f++TVrL5QNP5jBo4225ZREsD2eeZFxXgdB04t89/1O/w1cDnyilFU=')
 # Channel Secret
-handler = WebhookHandler('')
+handler = WebhookHandler('7725e2081253d481db9edd9273be30f0')
 
 checker = internet_check()
 
@@ -35,25 +37,61 @@ def callback():
     app.logger.info("Request body: " + body)
 
     # handle webhook body
-    try:
+    #try:
         # json_data = json.loads(body) 
-        handler.handle(body, signature)
+    handler.handle(body, signature)
         # msg = json_data['events'][0]['message']['text']      # 取得 LINE 收到的文字訊息
         # tk = json_data['events'][0]['replyToken'] 
         # line_bot_api.reply_message(tk,TextSendMessage(msg))  # 回傳訊息
         # print(msg, tk)  
-    except:
-        print(body) 
+    # except:
+    #     print(body) 
     return 'OK'
 
 
 @handler.add(MessageEvent, message=TextMessage)     #使用者傳訊息會觸發
 def handle_message(event):
-    if event.message.text != '':
-        # line_bot_api.reply_message(event.reply_token, 
-        #     TextSendMessage(text='掃描中...'))
-        line_bot_api.reply_message(event.reply_token, 
-            TextSendMessage(text=checker.ans))
+    user_id = event.source.user_id
+    if event.message.text == 'start':
+         line_bot_api.reply_message(                          # 回復傳入的訊息文字
+                            event.reply_token,
+                            TemplateSendMessage(
+                                alt_text='Buttons template',
+                                template=ButtonsTemplate(
+                                    title='學校網路測試',
+                                    text='點下面按鈕開始測試',
+                                    actions=[
+                                        MessageTemplateAction(
+                                            label='開始測試',
+                                            text='開始測試'
+                                        )
+                                    ]
+                                )
+                            )
+                        )
+    elif event.message.text == '開始測試':
+            line_bot_api.reply_message(event.reply_token, 
+                TextSendMessage(text=checker.ans))
+            time.sleep(3)
+            line_bot_api.push_message(                          # 回復傳入的訊息文字
+                            user_id,
+                            TemplateSendMessage(
+                                alt_text='Buttons template',
+                                template=ButtonsTemplate(
+                                    title='學校網路測試',
+                                    text='點下面按鈕開始測試',
+                                    actions=[
+                                        MessageTemplateAction(
+                                            label='開始測試',
+                                            text='開始測試'
+                                        )
+                                    ]
+                                )
+                            )
+                        )
+ 
+
+
 
 
 
@@ -62,7 +100,8 @@ if __name__ == "__main__":
     t1.daemon = True   #開始更新checker裡面ans
     t1.start()
     run_with_ngrok(app)                             #run_with_ngrok 產生webhook
-    app.run()   
+    #app.run(port = 5000,  ssl_context = ('bei-ke-niu-bi.club/certificate.crt', 'bei-ke-niu-bi.club/private.key'), debug = True)   
+    app.run()
                                       #無限迴圈
 
 
@@ -71,8 +110,8 @@ if __name__ == "__main__":
 #     body = request.get_data(as_text=True)                    # 取得收到的訊息內容
 #     try:
 #         json_data = json.loads(body)                         # json 格式化訊息內容
-#         access_token =  ''
-#         secret = ''
+#         access_token =  'QIsD3hg2VgTge6iTh/bSfUjUOgMdPlBCPXlTtG/5bOfeq2PqAVufvH192wO/XgxlrmRV7Vnrk630vS9EbYq+XnyHoCzNFD+VH67TgIT77eCTylU28zpbo/f++TVrL5QNP5jBo4225ZREsD2eeZFxXgdB04t89/1O/w1cDnyilFU='
+#         secret = '7725e2081253d481db9edd9273be30f0'
 #         line_bot_api = LineBotApi(access_token)              # 確認 token 是否正確
 #         handler = WebhookHandler(secret)                     # 確認 secret 是否正確
 #         signature = request.headers['X-Line-Signature']      # 加入回傳的 headers
@@ -86,8 +125,8 @@ if __name__ == "__main__":
 #     return 'OK'    
 # def linebot(request):
 #     try:
-#         access_token = ''
-#         secret = ''
+#         access_token = 'QIsD3hg2VgTge6iTh/bSfUjUOgMdPlBCPXlTtG/5bOfeq2PqAVufvH192wO/XgxlrmRV7Vnrk630vS9EbYq+XnyHoCzNFD+VH67TgIT77eCTylU28zpbo/f++TVrL5QNP5jBo4225ZREsD2eeZFxXgdB04t89/1O/w1cDnyilFU='
+#         secret = '7725e2081253d481db9edd9273be30f0'
 #         body = request.get_data(as_text=True)
 #         json_data = json.loads(body)
 #         line_bot_api = LineBotApi(access_token)
@@ -106,7 +145,7 @@ if __name__ == "__main__":
 # def push_warning():
 #     global error_area
 #     ans = ''
-#     user_id =  ''
+#     user_id =  'U33dcbe139d669eb71298956ab6e24a08'
 #     line_bot_api.push_message(user_id, 
 #             TextSendMessage(text="123"))
 #     for i in range(197):
@@ -139,3 +178,91 @@ if __name__ == "__main__":
         #                     )
         #                 ))
         #if event.message.text == 'test':
+
+       # global count
+        # thread_list = []
+        # if event.message.text != 'start':
+        # thread_list.append(threading.Thread(target = reply, args = (user_id, event.message.text)))
+        # thread_list[count].start()
+        # count+=1
+       
+        # line_bot_api.reply_message(event.reply_token, 
+        #     TextSendMessage(text=checker.ans))
+
+# def reply(user_id, reply_message):
+#     line_bot_api.push_message(                          # 回復傳入的訊息文字
+#                             user_id,
+#                             TemplateSendMessage(
+#                                 alt_text='Buttons template',
+#                                 template=ButtonsTemplate(
+#                                     title='學校網路測試',
+#                                     text='點下面按鈕開始測試',
+#                                     actions=[
+#                                         MessageTemplateAction(
+#                                             label='開始測試',
+#                                             text='開始測試'
+#                                         )
+#                                     ]
+#                                 )
+#                             )
+#                         )
+#     while True:
+#         print('123')
+#         # if reply_message == 'start':
+#         #     line_bot_api.push_message(                          # 回復傳入的訊息文字
+#         #                     user_id,
+#         #                     TemplateSendMessage(
+#         #                         alt_text='Buttons template',
+#         #                         template=ButtonsTemplate(
+#         #                             title='學校網路測試',
+#         #                             text='點下面按鈕開始測試',
+#         #                             actions=[
+#         #                                 MessageTemplateAction(
+#         #                                     label='開始測試',
+#         #                                     text='開始測試'
+#         #                                 )
+#         #                             ]
+#         #                         )
+#         #                     )
+#         #                 )
+#         if reply_message == '開始測試':
+#             line_bot_api.push_message(user_id, 
+#             TextSendMessage(text=checker.ans))
+#             line_bot_api.push_message(                          # 回復傳入的訊息文字
+#                             user_id,
+#                             TemplateSendMessage(
+#                                 alt_text='Buttons template',
+#                                 template=ButtonsTemplate(
+#                                     title='學校網路測試',
+#                                     text='點下面按鈕開始測試',
+#                                     actions=[
+#                                         MessageTemplateAction(
+#                                             label='開始測試',
+#                                             text='開始測試'
+#                                         )
+#                                     ]
+#                                 )
+#                             )
+#                         )
+#         else:
+#             pass
+
+
+    # line_bot_api.push_message(                          # 回復傳入的訊息文字
+    #                         user_id,
+    #                         TemplateSendMessage(
+    #                             alt_text='Buttons template',
+    #                             template=ButtonsTemplate(
+    #                                 title='學校網路測試',
+    #                                 text='點下面按鈕開始測試',
+    #                                 actions=[
+    #                                     MessageTemplateAction(
+    #                                         label='開始測試',
+    #                                         text='開始測試'
+    #                                     )
+    #                                 ]
+    #                             )
+    #                         )
+    #                     )
+    # line_bot_api.reply_message(event.reply_token, 
+    #         TextSendMessage(text='掃描中...'))
