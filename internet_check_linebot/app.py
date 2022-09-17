@@ -19,9 +19,9 @@ error_area = []
 app = Flask(__name__)
 
 #Channel Access Token
-line_bot_api = LineBotApi('QIsD3hg2VgTge6iTh/bSfUjUOgMdPlBCPXlTtG/5bOfeq2PqAVufvH192wO/XgxlrmRV7Vnrk630vS9EbYq+XnyHoCzNFD+VH67TgIT77eCTylU28zpbo/f++TVrL5QNP5jBo4225ZREsD2eeZFxXgdB04t89/1O/w1cDnyilFU=')
+line_bot_api = LineBotApi('')
 # Channel Secret
-handler = WebhookHandler('7725e2081253d481db9edd9273be30f0')
+handler = WebhookHandler('')
 
 checker = internet_check()
 
